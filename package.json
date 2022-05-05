@@ -1,0 +1,28 @@
+{
+  "name": "stein-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "copy-type": "cp ./type.d.ts ../stein-client-dist/type.d.ts",
+    "copy-package": "cp ./package.json ../stein-client-dist/package.json",
+    "build": "tsc --project ./tsconfig.json && yarn copy-package && yarn copy-type"
+  },
+  "contributors": [
+    {
+      "name": "Bambang Adhitya",
+      "url": "https://github.com/bambang-ap",
+      "githubUsername": "bambang-ap"
+    }
+  ],
+  "dependencies": {
+    "stein-js-client": "^0.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
