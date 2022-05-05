@@ -31,5 +31,34 @@ class Stein {
             return values.filter((value) => value !== null).length > 0;
         });
     }
+    async getWithType(options) {
+        const response = await this.get(options);
+        const typeResponse = await this.getType(options);
+        return response.map((data) => {
+            const keys = Object.keys(data);
+            return keys.reduce((ret, key) => {
+                const [type, delimiter] = typeResponse[key];
+                const value = data[key];
+                ret[key] = value;
+                if (type === "array")
+                    ret[key] = value.split(delimiter);
+                if (type === "number")
+                    ret[key] = parseInt(value);
+                if (type === "object")
+                    ret[key] = JSON.parse(value);
+                return ret;
+            }, {});
+        });
+    }
+    async getType(options) {
+        const sheetName = this.sheetName;
+        this.setSheetName(`${sheetName}Type`);
+        const response = await this.get(options);
+        this.setSheetName(sheetName);
+        return response.reduce((ret, { column, type, delimiter }) => {
+            ret[column] = [type, delimiter];
+            return ret;
+        }, {});
+    }
 }
 exports.default = Stein;

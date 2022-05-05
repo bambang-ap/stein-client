@@ -16,20 +16,23 @@ declare module "stein-js-client" {
   class SteinStore {
     constructor(url: string);
 
-    read<D>(sheetName: string, options?: ReadOptions): Promise<D[]>;
+    read<K extends string>(
+      sheetName: string,
+      options?: ReadOptions
+    ): Promise<Record<K, string>[]>;
 
-    append<D>(
+    append<D extends Record<string, string>>(
       sheetName: string,
       rows: D[],
       options?: Opt
     ): Promise<{ updatedRange: string }>;
 
-    edit<D>(
+    edit<D extends Record<string, string>>(
       sheetName: string,
       options: EditOptions<D>
     ): Promise<{ updatedRange: string }>;
 
-    delete<D>(
+    delete<D extends Record<string, string>>(
       sheetName: string,
       options: DeleteOptions<D>
     ): Promise<{ updatedRange: string }>;
