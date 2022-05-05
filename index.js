@@ -43,7 +43,7 @@ class Stein {
                 if (type === "array")
                     ret[key] = value.split(delimiter);
                 if (type === "number")
-                    ret[key] = parseInt(value);
+                    ret[key] = parseFloat(value);
                 if (type === "object")
                     ret[key] = JSON.parse(value);
                 return ret;
