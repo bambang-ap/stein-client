@@ -73,4 +73,3 @@ class Stein {
     }
 }
 exports.default = Stein;
-const d = new Stein('');
