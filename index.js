@@ -6,34 +6,43 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stein_js_client_1 = __importDefault(require("stein-js-client"));
 class Stein {
     store;
-    sheetName = "";
-    constructor(apiId, sheetName) {
+    config = { sheetName: "" };
+    constructor(apiId, sheetName = "") {
         this.store = new stein_js_client_1.default(`https://api.steinhq.com/v1/storages/${apiId}`);
-        this.setSheetName(sheetName);
+        this.setConfig({ sheetName });
     }
-    setSheetName(sheetName) {
-        if (sheetName !== undefined)
-            this.sheetName = sheetName;
+    setConfig = (config) => {
+        this.config = config;
+    };
+    clearConfig = () => {
+        this.config = { sheetName: this.config.sheetName };
+    };
+    create(rows, sheetName) {
+        const { authentication } = this.config;
+        const sheet = sheetName ?? this.config.sheetName;
+        return this.store.append(sheet, rows, { authentication });
     }
-    create(rows, options) {
-        return this.store.append(this.sheetName, rows, options);
+    update(options, sheetName) {
+        const { authentication } = this.config;
+        const sheet = sheetName ?? this.config.sheetName;
+        return this.store.edit(sheet, { ...options, authentication });
     }
-    update(options) {
-        return this.store.edit(this.sheetName, options);
+    delete(options, sheetName) {
+        const sheet = sheetName ?? this.config.sheetName;
+        const { authentication } = this.config;
+        return this.store.delete(sheet, { ...options, authentication });
     }
-    delete(options) {
-        return this.store.delete(this.sheetName, options);
-    }
-    async get(options) {
-        const response = await this.store.read(this.sheetName, options);
+    async get(sheetName, options) {
+        const sheet = sheetName ?? this.config.sheetName;
+        const response = await this.store.read(sheet, options);
         return response.filter((data) => {
             const values = Object.values(data);
             return values.filter((value) => value !== null).length > 0;
         });
     }
-    async getWithType(options) {
-        const response = await this.get(options);
-        const typeResponse = await this.getType(options);
+    async getWithType(sheetName, options) {
+        const response = await this.get(sheetName, options);
+        const typeResponse = await this.getType(sheetName, options);
         return response.map((data) => {
             const keys = Object.keys(data);
             return keys.reduce((ret, key) => {
@@ -50,11 +59,13 @@ class Stein {
             }, {});
         });
     }
-    async getType(options) {
-        const sheetName = this.sheetName;
-        this.setSheetName(`${sheetName}Type`);
-        const response = await this.get(options);
-        this.setSheetName(sheetName);
+    async getType(sheetName, options) {
+        const { sheetName: nameSheet, authentication } = this.config;
+        const sheet = sheetName ?? nameSheet;
+        const response = await this.store.read(`${sheet}Type`, {
+            ...options,
+            authentication,
+        });
         return response.reduce((ret, { column, type, delimiter }) => {
             ret[column] = [type, delimiter];
             return ret;
@@ -62,3 +73,4 @@ class Stein {
     }
 }
 exports.default = Stein;
+const d = new Stein('');

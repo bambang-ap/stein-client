@@ -1,20 +1,19 @@
+/// <reference path="../stein-client/type.d.ts" />
 import { Opt, ReadOptions, EditOptions, DeleteOptions } from "stein-js-client";
+declare type Config = Opt & {
+    sheetName: string;
+};
 declare class Stein {
     private store;
-    sheetName: string;
+    private config;
     constructor(apiId: string, sheetName?: string);
-    setSheetName(sheetName?: string): void;
-    create<D extends Record<string, string>>(rows: D[], options?: Opt): Promise<{
-        updatedRange: string;
-    }>;
-    update<D extends Record<string, string>>(options: EditOptions<D>): Promise<{
-        updatedRange: string;
-    }>;
-    delete<D extends Record<string, string>>(options: DeleteOptions<D>): Promise<{
-        updatedRange: string;
-    }>;
-    get(options?: ReadOptions): Promise<Record<string, string>[]>;
-    getWithType<D extends object>(options?: ReadOptions): Promise<D[]>;
-    getType(options?: ReadOptions): Promise<Record<string, [type: string, delimiter: string]>>;
+    setConfig: (config: Config) => void;
+    clearConfig: () => void;
+    create<D extends Record<string, string>>(rows: D[], sheetName?: string): Promise<import("stein-js-client").UpdateResponse>;
+    update<D extends Record<string, string>>(options: EditOptions<D>, sheetName?: string): Promise<import("stein-js-client").UpdateResponse>;
+    delete<D extends Record<string, string>>(options: DeleteOptions<D>, sheetName?: string): Promise<import("stein-js-client").UpdateResponse>;
+    get(sheetName?: string, options?: ReadOptions): Promise<Record<string, string>[]>;
+    getWithType<D extends object>(sheetName?: string, options?: ReadOptions): Promise<D[]>;
+    private getType;
 }
 export default Stein;
