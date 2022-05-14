@@ -12,7 +12,7 @@ declare class Stein {
     create<D extends Record<string, string>>(rows: D[], sheetName?: string): Promise<import("stein-js-client").UpdateResponse>;
     update<D extends Record<string, string>>(options: EditOptions<D>, sheetName?: string): Promise<import("stein-js-client").UpdateResponse>;
     delete<D extends Record<string, string>>(options: DeleteOptions<D>, sheetName?: string): Promise<import("stein-js-client").UpdateResponse>;
-    get(sheetName?: string, options?: ReadOptions): Promise<Record<string, string>[]>;
+    get<D extends Record<string, string>>(sheetName?: string, options?: ReadOptions): Promise<D[]>;
     getWithType<D extends object>(sheetName?: string, options?: ReadOptions): Promise<D[]>;
     private getType;
 }
