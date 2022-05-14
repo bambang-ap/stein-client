@@ -22,18 +22,18 @@ declare module "stein-js-client" {
       options?: ReadOptions & Opt
     ): Promise<Record<K, string>[]>;
 
-    append<D extends Record<string, string>>(
+    append<D extends Record<string, string | number>>(
       sheetName: string,
       rows: D[],
       options?: Opt
     ): Promise<UpdateResponse>;
 
-    edit<D extends Record<string, string>>(
+    edit<D extends Record<string, string | number>>(
       sheetName: string,
       options: EditOptions<D> & Opt
     ): Promise<UpdateResponse>;
 
-    delete<D extends Record<string, string>>(
+    delete<D extends Record<string, string | number>>(
       sheetName: string,
       options: DeleteOptions<D> & Opt
     ): Promise<UpdateResponse>;
