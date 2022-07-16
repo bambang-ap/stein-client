@@ -42,7 +42,7 @@ class Stein {
     }
     async getWithType(sheetName, options) {
         const response = await this.get(sheetName, options);
-        const typeResponse = await this.getType(sheetName, options);
+        const typeResponse = await this.getType(sheetName);
         return response.map((data) => {
             const keys = Object.keys(data);
             return keys.reduce((ret, key) => {
