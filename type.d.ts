@@ -1,6 +1,7 @@
 declare module "stein-js-client" {
+  export type Auth = Record<"username" | "password", string>;
   export type UpdateResponse = { updatedRange: string };
-  export type Opt = { authentication?: string };
+  export type Opt = { authentication?: Auth };
   export type Options = {
     limit: number;
     offset: number;
