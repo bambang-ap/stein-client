@@ -1,12 +1,12 @@
 {
   "name": "stein-client",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "copy-type": "cp ./type.d.ts ../stein-client-dist/type.d.ts",
-    "copy-package": "cp ./package.json ../stein-client-dist/package.json",
+    "copy-type": "cp ./type.d.ts ../stein-client/type.d.ts",
+    "copy-package": "cp ./package.json ../stein-client/package.json",
     "build": "tsc --project ./tsconfig.json && yarn copy-package && yarn copy-type"
   },
   "contributors": [
@@ -21,5 +21,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }

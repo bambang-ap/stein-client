@@ -55,6 +55,8 @@ class Stein {
                     ret[key] = parseFloat(value);
                 if (type === "object")
                     ret[key] = JSON.parse(value);
+                if (type === "boolean")
+                    ret[key] = value === "TRUE";
                 return ret;
             }, {});
         });

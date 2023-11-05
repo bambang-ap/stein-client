@@ -1,6 +1,6 @@
-/// <reference path="../stein-client/type.d.ts" />
+/// <reference path="../stein-client-src/type.d.ts" />
 import { ReadOptions, EditOptions, DeleteOptions, Auth } from "stein-js-client";
-declare type Manage = Record<string, string | number>;
+type Manage = Record<string, string | number>;
 declare class Stein {
     private client;
     private authentication;
